@@ -1,16 +1,16 @@
-# MCPVault
+# MCPAudit
 
 **Offensive security testing framework for Model Context Protocol (MCP) servers.**
 
 Make MCP security testing as easy as running a linter.
 
 ```bash
-mcpvault scan ./server.py
+mcpaudit scan ./server.py
 ```
 
 ## Problem
 
-MCP servers expose databases, APIs, file systems, cloud resources, and SaaS tools to AI agents — often without rigorous security review. MCPVault helps teams find issues before attackers do.
+MCP servers expose databases, APIs, file systems, cloud resources, and SaaS tools to AI agents — often without rigorous security review. MCPAudit helps teams find issues before attackers do.
 
 ## Features
 
@@ -25,9 +25,9 @@ MCP servers expose databases, APIs, file systems, cloud resources, and SaaS tool
 | Risk Scoring Engine | ✅ Alpha | CVSS-inspired security score (0–100) |
 | Compliance Checks | ✅ Alpha | OWASP LLM Top 10 & MCP best practices |
 | CI/CD Integration | 🚧 Planned | GitHub Action for pipeline gates |
-| HTML Reports | ✅ Alpha | `mcpvault report` → `security-report.html` |
-| MCP Fuzzer | 🔮 Roadmap | `mcpvault fuzz` |
-| MCPVault Agent | 🔮 Roadmap | `mcpvault pentest` |
+| HTML Reports | ✅ Alpha | `mcpaudit report` → `security-report.html` |
+| MCP Fuzzer | 🔮 Roadmap | `mcpaudit fuzz` |
+| MCPAudit Agent | 🔮 Roadmap | `mcpaudit pentest` |
 
 ## Quick Start
 
@@ -40,27 +40,27 @@ MCP servers expose databases, APIs, file systems, cloud resources, and SaaS tool
 
 ```bash
 git clone https://github.com/hello-args/MCPVault.git
-cd mcpvault
+cd MCPVault
 uv sync --all-extras
 ```
 
 ### Scan an MCP server
 
 ```bash
-uv run mcpvault scan examples/vulnerable-mcp-server/server.py
+uv run mcpaudit scan examples/vulnerable-mcp-server/server.py
 ```
 
 Save JSON results and generate HTML:
 
 ```bash
-uv run mcpvault scan examples/vulnerable-mcp-server/server.py -o report.json
-uv run mcpvault report report.json -o security-report.html
+uv run mcpaudit scan examples/vulnerable-mcp-server/server.py -o report.json
+uv run mcpaudit report report.json -o security-report.html
 ```
 
 ### CI gate (fail on critical)
 
 ```bash
-uv run mcpvault scan ./server.py --fail-on-critical
+uv run mcpaudit scan ./server.py --fail-on-critical
 ```
 
 ## Architecture
@@ -72,7 +72,7 @@ uv run mcpvault scan ./server.py --fail-on-critical
                   │
                   ▼
          ┌─────────────────┐
-         │ MCPVault Scanner │
+         │ MCPAudit Scanner  │
          └─────────────────┘
                   │
      ┌────────────┼────────────┐
@@ -88,8 +88,8 @@ Analyzer      Engine       Scanner
 ## Project Structure
 
 ```
-MCPVault/
-├── src/mcpvault/          # Main package (src layout)
+MCPAudit/
+├── src/mcpaudit/          # Main package (src layout)
 │   ├── cli/             # Typer CLI (`scan`, `report`, `fuzz`, `pentest`)
 │   ├── core/            # Scanner orchestration
 │   ├── analyzers/       # Security analyzers
@@ -108,7 +108,7 @@ MCPVault/
 ```bash
 uv sync --all-extras
 uv run pytest
-uv run ruff check .
+uv run ruff check src tests
 uv run ruff format src tests
 pre-commit install
 ```
@@ -121,7 +121,7 @@ pre-commit install
 | OWASP ZAP | Web security |
 | Trivy | Container security |
 | Semgrep | Static analysis |
-| **MCPVault** | **MCP security** |
+| **MCPAudit** | **MCP security** |
 
 ## Contributing
 

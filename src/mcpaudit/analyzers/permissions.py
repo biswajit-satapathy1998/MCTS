@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import re
 
-from mcpvault.analyzers.base import BaseAnalyzer
-from mcpvault.mcp.models import MCPServerInfo, MCPTool
-from mcpvault.reporting.models import Finding, Severity
+from mcpaudit.analyzers.base import BaseAnalyzer
+from mcpaudit.mcp.models import MCPServerInfo, MCPTool
+from mcpaudit.reporting.models import Finding, Severity
 
 DESTRUCTIVE_PATTERNS = re.compile(
     r"\b(delete|drop|remove|destroy|wipe|purge|truncate|kill|shutdown)\b",

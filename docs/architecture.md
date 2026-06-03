@@ -1,6 +1,6 @@
 # Architecture
 
-MCPVault follows a modular pipeline architecture designed for extensibility.
+MCPAudit follows a modular pipeline architecture designed for extensibility.
 
 ## Components
 

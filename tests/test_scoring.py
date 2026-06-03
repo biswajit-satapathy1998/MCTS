@@ -1,7 +1,7 @@
 """Tests for risk scoring."""
 
-from mcpvault.reporting.models import Finding, Severity
-from mcpvault.scoring.engine import RiskScoringEngine
+from mcpaudit.reporting.models import Finding, Severity
+from mcpaudit.scoring.engine import RiskScoringEngine
 
 
 def test_score_decreases_with_severity() -> None:

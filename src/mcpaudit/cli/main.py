@@ -1,4 +1,4 @@
-"""MCPVault command-line interface."""
+"""MCPAudit command-line interface."""
 
 from __future__ import annotations
 
@@ -8,13 +8,13 @@ from typing import Annotated
 import typer
 from rich.console import Console
 
-from mcpvault import __version__
-from mcpvault.core.config import ScanConfig
-from mcpvault.core.scanner import Scanner
-from mcpvault.reporting.html import write_html_report
+from mcpaudit import __version__
+from mcpaudit.core.config import ScanConfig
+from mcpaudit.core.scanner import Scanner
+from mcpaudit.reporting.html import write_html_report
 
 app = typer.Typer(
-    name="mcpvault",
+    name="mcpaudit",
     help="Offensive security testing framework for MCP servers.",
     no_args_is_help=True,
 )
@@ -23,7 +23,7 @@ console = Console()
 
 def _version_callback(value: bool) -> None:
     if value:
-        console.print(f"mcpvault {__version__}")
+        console.print(f"mcpaudit {__version__}")
         raise typer.Exit()
 
 
@@ -34,7 +34,7 @@ def main(
         typer.Option("--version", callback=_version_callback, is_eager=True),
     ] = None,
 ) -> None:
-    """MCPVault — scan MCP servers for security vulnerabilities."""
+    """MCPAudit — scan MCP servers for security vulnerabilities."""
 
 
 @app.command()
@@ -78,7 +78,7 @@ def report(
     ] = Path("security-report.html"),
 ) -> None:
     """Generate an HTML security report from scan results."""
-    from mcpvault.reporting.models import ScanReport
+    from mcpaudit.reporting.models import ScanReport
 
     data = ScanReport.model_validate_json(input_file.read_text())
     write_html_report(data, output)
@@ -104,7 +104,7 @@ def pentest(
     ],
 ) -> None:
     """Run AI-assisted penetration testing. (Coming soon)"""
-    console.print("[yellow]MCPVault Agent pentest not yet implemented.[/yellow]")
+    console.print("[yellow]MCPAudit Agent pentest not yet implemented.[/yellow]")
 
 
 def run() -> None:

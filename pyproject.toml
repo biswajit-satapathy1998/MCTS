@@ -1,11 +1,11 @@
 [project]
-name = "mcpvault"
+name = "mcpaudit"
 version = "0.1.0"
 description = "Offensive security testing framework for Model Context Protocol (MCP) servers"
 readme = "README.md"
 license = { text = "Apache-2.0" }
 authors = [
-    { name = "MCPVault Contributors" },
+    { name = "MCPAudit Contributors" },
 ]
 requires-python = ">=3.11"
 keywords = ["mcp", "security", "red-team", "prompt-injection", "llm", "ai-agents"]
@@ -45,7 +45,7 @@ mcp = [
 ]
 
 [project.scripts]
-mcpvault = "mcpvault.cli.main:run"
+mcpaudit = "mcpaudit.cli.main:run"
 
 [project.urls]
 Homepage = "https://github.com/hello-args/MCPVault"
@@ -75,10 +75,10 @@ src = ["src", "tests"]
 select = ["E", "F", "I", "UP", "B", "SIM"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["mcpvault"]
+known-first-party = ["mcpaudit"]
 
 [tool.coverage.run]
-source = ["mcpvault"]
+source = ["mcpaudit"]
 branch = true
 
 [tool.coverage.report]

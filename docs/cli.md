@@ -1,11 +1,11 @@
 # CLI Reference
 
-## `mcpvault scan`
+## `mcpaudit scan`
 
 Run a full security scan.
 
 ```bash
-mcpvault scan <target> [--output report.json] [--fail-on-critical]
+mcpaudit scan <target> [--output report.json] [--fail-on-critical]
 ```
 
 | Flag | Description |
@@ -13,22 +13,22 @@ mcpvault scan <target> [--output report.json] [--fail-on-critical]
 | `--output`, `-o` | Write JSON report to file |
 | `--fail-on-critical` | Exit code 1 if critical findings exist |
 
-## `mcpvault report`
+## `mcpaudit report`
 
 Generate HTML from a JSON scan report.
 
 ```bash
-mcpvault report report.json [--output security-report.html]
+mcpaudit report report.json [--output security-report.html]
 ```
 
-## `mcpvault fuzz` (roadmap)
+## `mcpaudit fuzz` (roadmap)
 
 Fuzz an MCP server with generated attack payloads.
 
-## `mcpvault pentest` (roadmap)
+## `mcpaudit pentest` (roadmap)
 
 AI-assisted penetration testing agent.
 
-## `mcpvault --version`
+## `mcpaudit --version`
 
 Print the installed version.

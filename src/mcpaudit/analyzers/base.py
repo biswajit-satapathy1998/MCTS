@@ -4,12 +4,12 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 
-from mcpvault.mcp.models import MCPServerInfo
-from mcpvault.reporting.models import Finding
+from mcpaudit.mcp.models import MCPServerInfo
+from mcpaudit.reporting.models import Finding
 
 
 class BaseAnalyzer(ABC):
-    """Interface implemented by all MCPVault security analyzers."""
+    """Interface implemented by all MCPAudit security analyzers."""
 
     name: str = "base"
 

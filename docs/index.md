@@ -1,4 +1,4 @@
-# MCPVault Documentation
+# MCPAudit Documentation
 
 ## Guides
 

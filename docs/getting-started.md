@@ -3,23 +3,23 @@
 ## Install
 
 ```bash
-pip install mcpvault
+pip install mcpaudit
 # or with uv
-uv tool install mcpvault
+uv tool install mcpaudit
 ```
 
 ## Scan your first server
 
 ```bash
-mcpvault scan ./server.py
+mcpaudit scan ./server.py
 ```
 
-MCPVault performs static analysis on Python MCP servers, discovering `@tool` decorators and running security analyzers against them.
+MCPAudit performs static analysis on Python MCP servers, discovering `@tool` decorators and running security analyzers against them.
 
 ## Example output
 
 ```
-────────────────────── MCPVault Security Report ──────────────────────
+────────────────────── MCPAudit Security Report ──────────────────────
 Target: examples/vulnerable-mcp-server/server.py
 Overall Score: 42/100
 
@@ -34,6 +34,6 @@ Overall Score: 42/100
 
 ## Next steps
 
-- Save JSON: `mcpvault scan ./server.py -o report.json`
-- Generate HTML: `mcpvault report report.json`
+- Save JSON: `mcpaudit scan ./server.py -o report.json`
+- Generate HTML: `mcpaudit report report.json`
 - Add to CI: see `action/action.yml`
