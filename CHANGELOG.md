@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-06-10
+
 ### Added
 
 - **Repository instruction discovery** — auto-discovers `SKILL.md`, `*prompt*.md`, and `system_prompt.md` from repo markdown during static scans; feeds prompt/instruction analyzers and `skill_md`
