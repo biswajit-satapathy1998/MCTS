@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import logging
+import os
 import re
 from typing import Any
 
@@ -9,6 +11,8 @@ from mcts.analyzers.base import BaseAnalyzer
 from mcts.analyzers.data_leakage import SECRET_PATTERNS
 from mcts.mcp.models import MCPServerInfo
 from mcts.reporting.models import Finding, Severity, SourceLocation
+
+logger = logging.getLogger(__name__)
 
 CREDENTIAL_KEYWORDS: tuple[str, ...] = (
     "api_key",
@@ -32,6 +36,14 @@ SEMANTIC_REFERENCE_PHRASES: tuple[str, ...] = (
 )
 
 _OBFUSCATED_SECRET = re.compile(r"(?i)(sk-[a-z0-9-]{10,}|ghp_[a-z0-9]{20,}|AKIA[0-9A-Z]{12,})")
+
+
+class _EmbeddingModelState:
+    model: Any | None = None
+    unavailable: bool = False
+
+
+_EMBEDDING_STATE = _EmbeddingModelState()
 
 
 class EmbeddingSecretsAnalyzer(BaseAnalyzer):
@@ -79,17 +91,50 @@ def _semantic_credential_hit(text: str, threshold: float) -> bool:
     if any(phrase in lowered for phrase in SEMANTIC_REFERENCE_PHRASES):
         return True
 
+    model = _load_embedding_model()
+    if model is None:
+        return False
+
     try:
         import numpy as np
-        from sentence_transformers import SentenceTransformer
     except ImportError:
         return False
 
-    model = SentenceTransformer("all-MiniLM-L6-v2")
-    text_embedding = model.encode([text], normalize_embeddings=True)[0]
-    ref_embeddings = model.encode(list(SEMANTIC_REFERENCE_PHRASES), normalize_embeddings=True)
-    similarities = np.dot(ref_embeddings, text_embedding)
-    return bool((similarities >= threshold).any())
+    try:
+        text_embedding = model.encode([text], normalize_embeddings=True)[0]
+        ref_embeddings = model.encode(list(SEMANTIC_REFERENCE_PHRASES), normalize_embeddings=True)
+        similarities = np.dot(ref_embeddings, text_embedding)
+        return bool((similarities >= threshold).any())
+    except Exception as exc:
+        logger.debug("Semantic credential embedding check skipped: %s", exc)
+        return False
+
+
+def _load_embedding_model() -> Any | None:
+    """Load sentence-transformers model once; degrade gracefully when offline."""
+    if _EMBEDDING_STATE.unavailable:
+        return None
+    if _EMBEDDING_STATE.model is not None:
+        return _EMBEDDING_STATE.model
+
+    try:
+        from sentence_transformers import SentenceTransformer
+    except ImportError:
+        _EMBEDDING_STATE.unavailable = True
+        return None
+
+    local_only = os.getenv("HF_HUB_OFFLINE", "").lower() in {"1", "true", "yes"}
+    try:
+        _EMBEDDING_STATE.model = SentenceTransformer(
+            "all-MiniLM-L6-v2",
+            local_files_only=local_only,
+        )
+    except Exception as exc:
+        logger.debug("Embedding model unavailable; using phrase fallback only: %s", exc)
+        _EMBEDDING_STATE.unavailable = True
+        return None
+
+    return _EMBEDDING_STATE.model
 
 
 def _finding(tool: Any, mode: str, confidence: float) -> Finding:
